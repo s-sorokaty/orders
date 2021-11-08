@@ -1,0 +1,22 @@
+doctype html
+head
+  meta(charset='UTF-8')
+  link(rel='stylesheet' type='text/css' href='style.css')
+  meta(http-equiv='X-UA-Compatible' content='IE=edge')
+  meta(name='viewport' content='width=device-width, initial-scale=1.0')
+  title Регистрация
+body
+  h1= message
+form(method='post' action='http://localhost:5000/login')
+  label &Lcy;&ocy;&gcy;&icy;&ncy;
+  br
+  input(type='text' name='userName')
+  br
+  br
+  label &Pcy;&acy;&rcy;&ocy;&lcy;&softcy;
+  br
+  input(type='number' name='userPassword')
+  br
+  br
+  input(type='submit' value='Отправить')
+script(src='script.js')

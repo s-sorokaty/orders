@@ -1,6 +1,6 @@
 const express = require('express');
 const { Client } = require('pg');
-
+const urlencodedParser = express.urlencoded({extended: false});
 const app = express();
 
 app.use(express.json());
@@ -12,11 +12,13 @@ const order = new Client({
   password: '1',
   database: 'order',
 });
+app.set('views', './views');
+app.set('view engine', 'pug');
 
 async function startApp() {
   try {
     order.connect();
-    app.listen(3000, () => console.log('Сервер запущен...'));
+    app.listen(5000, () => console.log('Сервер запущен...'));
   } catch (err) {
     order.end();
   }
@@ -46,7 +48,7 @@ function insertOne(elem) {
 
 app.get('/', (req, res) => {
   console.log('user is connecting');
-  res.send('still working');
+  res.render('login',{message:''});
 });
 
 // запрос на обращение к бд
@@ -68,7 +70,6 @@ app.post('/create', (req, res) => {
     (result) => {
       try {
         for (const array of result) if (!(array.id != req.body.id)) throw 'haveOrder';
-
         insertOne(req.body);
         res.send('Запись добавлена');
       } catch (e) {
@@ -96,4 +97,23 @@ app.post('/editor', (req, res) => {
       res.send(error);
     },
   );
+});
+
+app.post('/login',urlencodedParser, (req, res) => {
+  selectForDB('select * FROM users').then(
+    (result) => {
+      for (let array of result)
+      if((array.name==req.body.userName)&&(array.password==req.body.userPassword)){
+        console.log("user login")
+        res.send("Вход выполнен");
+        return 1;
+      };
+      res.render('login',{message:'Неверный логин или пароль'});
+      //res.send("Неверный логин или пароль");   
+    },
+    (error) => {
+   // render('login');
+    res.send(error);
+  })
+
 });
