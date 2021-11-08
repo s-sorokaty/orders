@@ -51,14 +51,24 @@ app.get('/', (req, res) => {
   res.render('login',{message:''});
 });
 
+app.get('/main', (req, res) => {
+  selectForDB("select * FROM employee").then(
+    (result) => {
+      res.render('main',{elem: result});
+    },
+    (error) => {
+      res.json(error);
+    },
+  );
+});
 // запрос на обращение к бд
 app.post('/select', (req, res) => {
   selectForDB(req.body.select).then(
     (result) => {
-      res.json(result);
+      res.render('main',{elem: result});
     },
     (error) => {
-      res.send(error);
+      res.json(error);
     },
   );
 });
@@ -71,13 +81,13 @@ app.post('/create', (req, res) => {
       try {
         for (const array of result) if (!(array.id != req.body.id)) throw 'haveOrder';
         insertOne(req.body);
-        res.send('Запись добавлена');
+        res.json('Запись добавлена');
       } catch (e) {
-        res.send('Повторяющийся номер записи');
+        res.json('Повторяющийся номер записи');
       }
     },
     (error) => {
-      res.send(error);
+      res.json('Ошибка сервера: '+error);
     },
   );
 });
@@ -91,7 +101,7 @@ app.post('/editor', (req, res) => {
       }
       selectForDB(`DELETE FROM employee where id = ${req.body.id}`);
       insertOne(req.body);
-      res.send('Элемент изменён');
+      res.json('Элемент изменён');
     },
     (error) => {
       res.send(error);
@@ -99,21 +109,43 @@ app.post('/editor', (req, res) => {
   );
 });
 
-app.post('/login',urlencodedParser, (req, res) => {
+
+
+// app.post('/login',urlencodedParser, (req, res) => {
+//   selectForDB('select * FROM users').then(
+//     (result) => {
+//       for (let array of result)
+//       if((array.name==req.body.userName)&&(array.password==req.body.userPassword)){
+//         console.log("user login");
+//         res.render('main',{elem:''});
+//         return 1;
+//       };
+//       res.render('login',{message:'Неверный логин или пароль'});
+//       //res.send("Неверный логин или пароль");   
+//     },
+//     (error) => {
+//    // render('login');
+//     res.send(error);
+//   })
+
+// });
+
+
+
+app.post('/main',urlencodedParser, (req, res) => {
   selectForDB('select * FROM users').then(
     (result) => {
       for (let array of result)
       if((array.name==req.body.userName)&&(array.password==req.body.userPassword)){
-        console.log("user login")
-        res.send("Вход выполнен");
+        selectForDB("select * FROM employee where id = 0").then(
+          (result) => {
+            res.render('main',{elem: result});
+          });
         return 1;
       };
-      res.render('login',{message:'Неверный логин или пароль'});
-      //res.send("Неверный логин или пароль");   
+      res.render('login',{message:'Неверный логин или пароль'});  
     },
     (error) => {
-   // render('login');
     res.send(error);
   })
-
 });
