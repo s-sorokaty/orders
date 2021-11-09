@@ -10,17 +10,6 @@ async function selectForDB(elemInJSON,queryToServer){
     }
 
 
-// dateFromBD.onclick = function(){
-// let selectToBD = {
-//     select:"select * FROM employee"
-// }
-// let queryToServer="select";
-// selectForDB(selectToBD, queryToServer).then(
-//     result=>{ alert(result);}
-// );
-
-// }
-
 addToBD.onclick = function(){
     let queryToServer="create";
     let elementToSent = {

@@ -61,9 +61,41 @@ app.get('/main', (req, res) => {
     },
   );
 });
-// запрос на обращение к бд
-app.post('/select', (req, res) => {
-  selectForDB(req.body.select).then(
+
+//запрос на обращение к бд
+app.post('/select',urlencodedParser, (req, res) => {
+  let select="select * FROM employee";
+    select+=" where ";
+  if((!req.body.idFrom>-1)&&(req.body.idFrom=="")){
+    req.body.idFrom=0; }
+    select+= req.body.idFrom +"<=id";
+ 
+  if((req.body.idTo>-1)&&(req.body.idTo!="")){
+    select+=" and id<="+ req.body.idTo;
+  }
+  if(req.body.firstname!=""){
+    select+=" and firstname= '"+ req.body.firstname+"'";
+  }
+  if(req.body.lastname!=""){
+    select+=" and lastname= '"+ req.body.lastname+"'";
+  }
+  if(req.body.email!=""){
+    select+=" and email= '"+ req.body.email+"'";
+  }
+  if(req.body.number!=""){
+    select+=" and number= '"+ req.body.number+"'";
+  }
+  if((req.body.costFrom>-1)&&(req.body.costFrom!="")){
+    select+=" and cost<="+ req.body.costFrom;
+  }
+  if((req.body.costTo>-1)&&(req.body.costTo!="")){
+    select+=" and cost<="+ req.body.costTo;
+  }
+  if(req.body.status!=""){
+    select+=" and status= '"+ req.body.status+"'";
+  }
+ // console.log(select);
+  selectForDB(select).then(
     (result) => {
       res.render('main',{elem: result});
     },
