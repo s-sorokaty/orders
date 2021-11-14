@@ -1,8 +1,25 @@
 body{
-    background-color: rgb(194, 194, 168);
+    background-color: rgb(194, 218, 223);
 }
 td:hover{
     color: red;
+}
+
+input{
+    background-color: rgb(175, 240, 218);
+}
+.select{
+    float: left;
+
+
+
+    margin: 2px;
+}
+.tab{
+    float: left;
+    padding-left: 100px;
+
+    margin: 2px;
 }
 table {
     font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
@@ -26,4 +43,3 @@ table {
     th:first-child, td:first-child {
     text-align: left;
     }
-    

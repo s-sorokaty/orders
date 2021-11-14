@@ -1,7 +1,6 @@
 {
   "name": "orders",
   "version": "1.0.0",
-  "description": "",
   "main": "server.js",
   "scripts": {
     "lint": "eslint --fix",
@@ -20,9 +19,12 @@
   },
   "homepage": "https://github.com/GIQ1/orders#readme",
   "dependencies": {
-    "eslint": "^8.2.0",
     "express": "^4.17.1",
     "pg": "^8.7.1",
     "pug": "^3.0.2"
-  }
+  },
+  "devDependencies": {
+    "eslint": "^8.2.0"
+  },
+  "description": ""
 }

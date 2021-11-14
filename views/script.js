@@ -1,5 +1,5 @@
-async function selectForDB(elemInJSON,queryToServer){
-    let response = await fetch('http://localhost:5000/'+queryToServer,{method: 'POST',
+async function queryForDB(elemInJSON,queryToServer){
+    let response = await fetch(queryToServer,{method: 'POST',
         headers: {
           'Content-Type': 'application/json;charset=utf-8'
         },
@@ -10,22 +10,30 @@ async function selectForDB(elemInJSON,queryToServer){
     }
 
 
-addToBD.onclick = function(){
-    let queryToServer="create";
-    let elementToSent = {
-        "id": 101,
-        "firstname": "123",
-        "lastname": "24141",
-        "email": "412",
-        "number": 35,
-        "cost": 3,
-        "status":1
-    };
 
-    selectForDB(elementToSent,queryToServer).then(
-        result=>{ alert(result);});
+
+let elem = document.querySelectorAll("table tr th");
+let elem2 = document.querySelectorAll("#userInf label input");
+for(let i=0;i<8;i++){
+  elem2[i].style.width=elem[i].clientWidth-7+"px";
+  elem2[i].style.height=elem[i].clientHeight-7+"px";
 }
 
 
 
-
+table.onmousedown = function(event){
+  if(event.which == 2){
+  for(let i =1;i<this.rows.length;i++){
+    if((this.rows[i].cells[0]!=undefined)&&(event.target==this.rows[i].cells[0])){
+      let result = confirm("Вы хотите удалить элемент id = "+event.target.innerHTML+'?');
+      if(result==true){
+        let del = {
+          id: event.target.innerHTML
+        };
+        queryForDB(del,'/delete').then(result => alert(result));
+        location.reload();
+    }
+  }
+}
+}
+};

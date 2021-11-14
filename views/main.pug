@@ -7,44 +7,51 @@ head
       include style.css
   title Document
 
-form(action='http://localhost:5000/select' method='POST')
-  legend ID
-  label
+.select
+  form(action='/select' method='POST')
+   legend ID
+   label
     | &ocy;&tcy;:
     input(type='text' name='idFrom' pattern="^[ 0-9]+$")
-  label
+   label
     | &dcy;&ocy;:
     input(type='text' name='idTo' pattern="^[ 0-9]+$")
-  legend &Icy;&mcy;&yacy;
-  label
+   legend &Icy;&mcy;&yacy;
+   label
     input(type='text' name='firstname')
-  legend &Fcy;&acy;&mcy;&icy;&lcy;&icy;&yacy;
-  label
+   legend &Fcy;&acy;&mcy;&icy;&lcy;&icy;&yacy;
+   label
     input(type='text' name='lastname')
-  legend Email
-  label
+   legend Email
+   label
     input(type='text' name='email')
-  legend Телефонный номер
-  label
+   legend Телефонный номер
+   label
     input(type='text' name='number' pattern="^[ 0-9]+$")
-  legend Цена заказа
-  label
+   legend Цена заказа
+   label
     | &ocy;&tcy;:
     input(type='text' name='costFrom' pattern="^[ 0-9]+$")
-  label
+   label
     | &dcy;&ocy;:
     input(type='text' name='costTo' pattern="^[ 0-9]+$")
-  legend &Scy;&tcy;&acy;&tcy;&ucy;&scy; &zcy;&acy;&kcy;&acy;&zcy;&acy;
-  label
-    input(type='text' name='status' pattern="^[ 0-9]+$")
+   legend Дата
+   label
+    | от:
+    input(type='text' name='dateFrom'  placeholder="ГГГГ-ММ-ДД ЧЧ-ММ-СС+ЧП")
+   label
+    | до:
+    input(type='text' name='dateTo' placeholder="ГГГГ-ММ-ДД ЧЧ-ММ-СС+ЧП")
+   legend &Scy;&tcy;&acy;&tcy;&ucy;&scy; &zcy;&acy;&kcy;&acy;&zcy;&acy;
+   label
+    input(type='text' name='status' pattern="^[ 0-2]+$")
     <br>
-  input(type='submit')
+   input(type='submit')
+   p= err
 
-
-//button#addToBD Добавить элемент
-
--if(elem.length!=0){
-table#table
+.tab
+ -if(elem.length!=0){
+ table#table
         tr
           th id
           th firstname
@@ -52,13 +59,34 @@ table#table
           th email
           th number
           th cost
+          th date
           th status
         - for(var i=0;i<elem.length;i++){
         tr
         -for (let key in elem[i])
          td= elem[i][key]
-         -}
--}
+         -}          
+ -}      
+          form(action='http://localhost:5000/create' method='POST' id="userInf" onsubmit="location.reload();")
+            label
+              input(type='text' name='id' pattern="^[ 0-9]+$")
+            label
+              input(type='text' name='firstname')
+            label
+              input(type='text' name='lastname')
+            label
+              input(type='text' name='email')
+            label
+              input(type='text' name='number' pattern="^[ 0-9]+$")
+            label
+              input(type='text' name='cost' pattern="^[ 0-9]+$")
+            label
+             input(type='text' name='date' )
+            label
+             input(type='text' name='status' )
+            br
+            input(type='submit')
+
          
 script
       include script.js
