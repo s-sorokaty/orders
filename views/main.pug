@@ -7,14 +7,18 @@ head
       include style.css
   title Document
 
+
+div 
+ p= you 
+ p= right 
 .select
-  form(action='/select' method='POST')
+  div(id="selectorElem")
    legend ID
    label
-    | &ocy;&tcy;:
+    | от:
     input(type='text' name='idFrom' pattern="^[ 0-9]+$")
    label
-    | &dcy;&ocy;:
+    | до:
     input(type='text' name='idTo' pattern="^[ 0-9]+$")
    legend &Icy;&mcy;&yacy;
    label
@@ -46,12 +50,11 @@ head
    label
     input(type='text' name='status' pattern="^[ 0-2]+$")
     <br>
-   input(type='submit')
+   input(type='submit' id="getElem")
    p= err
 
 .tab
- -if(elem.length!=0){
- table#table
+ table#tabOfElem
         tr
           th id
           th firstname
@@ -60,33 +63,29 @@ head
           th number
           th cost
           th date
-          th status
-        - for(var i=0;i<elem.length;i++){
-        tr
-        -for (let key in elem[i])
-         td= elem[i][key]
-         -}          
- -}      
-          form(action='http://localhost:5000/create' method='POST' id="userInf" onsubmit="location.reload();")
-            label
-              input(type='text' name='id' pattern="^[ 0-9]+$")
-            label
-              input(type='text' name='firstname')
-            label
-              input(type='text' name='lastname')
-            label
-              input(type='text' name='email')
-            label
-              input(type='text' name='number' pattern="^[ 0-9]+$")
-            label
-              input(type='text' name='cost' pattern="^[ 0-9]+$")
-            label
-             input(type='text' name='date' )
-            label
-             input(type='text' name='status' )
-            br
-            input(type='submit')
+          th status     
+
+ div(id="userInf")
+    label
+      input(type='text' id='id' name='id' pattern="^[ 0-9]+$")
+    label
+      input(type='text' id='firstname'  name='firstname')
+    label
+      input(type='text' id='lastname' name='lastname')
+    label
+      input(type='text' id='email' name='email')
+    label
+      input(type='text'  id='number' name='number' pattern="^[ 0-9]+$")
+    label
+      input(type='text' id='cost' name='cost' pattern="^[ 0-9]+$")
+    label
+      input(type='text' id='date' name='date' )
+    label
+      input(type='text' id='status' name='status' )
+    br
+    input(type='submit' id="addElem")
 
          
 script
       include script.js
+      include scriptForChange.js
