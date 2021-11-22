@@ -22,10 +22,10 @@ tabOfElem.onmousedown = function (event) {
   const buttonBef2 = document.querySelector('.change');
   if (divBef != null && buttonBef1 != null && buttonBef2 != null) { delElem(divBef, buttonBef1, buttonBef2); }
 
-  if (event.which == 1) {
-    for (let i = 1; i < tabOfElem.rows.length; i++) {
-      for (let j = 0; j < 8; j++) {
-        if (event.target == tabOfElem.rows[i].cells[j]) {
+  if (event.which === 1) {
+    for (let i = 1; i < tabOfElem.rows.length; i += 1) {
+      for (let j = 0; j < 8; j += 1) {
+        if (event.target === tabOfElem.rows[i].cells[j]) {
           event.target.parentElement.className = 'selected';
           elemBef.classList.remove('selected');
 
@@ -41,7 +41,7 @@ tabOfElem.onmousedown = function (event) {
           button2.innerHTML = 'Изменить';
           document.body.append(button2);
 
-          if (!(elemBef == event.target.parentElement)) { elemBef = event.target.parentElement; } else { event.target.parentElement.className = 'selected'; }
+          if (!(elemBef === event.target.parentElement)) { elemBef = event.target.parentElement; } else { event.target.parentElement.className = 'selected'; }
         }
       }
     }
@@ -51,7 +51,7 @@ tabOfElem.onmousedown = function (event) {
 
 delEl.onclick = function () {
   const result = confirm(`Вы хотите удалить элемент ${div.innerHTML}?`);
-  if (result == true) {
+  if (result === true) {
     const del = {
       id: div.innerHTML.slice(-1),
     };
@@ -71,7 +71,7 @@ changeEl.onclick = function () {
   divCont.className = 'b-popup-content';
   divCont.innerHTML = `id = ${div.innerHTML.slice(-1)}<br>`;
   popUp.append(divCont);
-  for (let i = 0; i < 7; i++) {
+  for (let i = 0; i < 7; i += 1) {
     const label = document.createElement('label');
     label.innerHTML = tableElem[i];
     const input = document.createElement('input');
@@ -82,7 +82,7 @@ changeEl.onclick = function () {
   button3.innerHTML = 'Изменить';
   divCont.append(button3);
   popUp.onclick = function (event) {
-    if (event.target == popUp) {
+    if (event.target === popUp) {
       popUp.remove();
       const divBef = document.querySelector('.currentEl');
       const buttonBef1 = document.querySelector('.delete');

@@ -8,7 +8,7 @@ function delElem(...args) {
   }
 }
 function delElemBef(...args) {
-  for (let i = 0; i < args[0].length; i++) {
+  for (let i = 0; i < args[0].length; i += 1) {
     args[0][i].remove();
   }
 }
@@ -28,8 +28,8 @@ async function queryForDB(elemInJSON, queryToServer) {
 function correctForm() {
   const elem = document.querySelectorAll('table tr th');
   const elem2 = document.querySelectorAll('#userInf label input');
-  if (elem2.length != 0) {
-    for (let i = 0; i < 8; i++) {
+  if (elem2.length !== 0) {
+    for (let i = 0; i < 8; i += 1) {
       elem2[i].style.width = `${elem[i].clientWidth - 7}px`;
       elem2[i].style.height = `${elem[i].clientHeight - 7}px`;
     }
@@ -78,7 +78,7 @@ getElem.onclick = function (event) {
   queryForDB(elemToAdd, '/main/select').then((result) => {
     const table = document.getElementById('tabOfElem');
     if (typeof result === 'object') {
-      for (let i = 0; i < result.length; i++) {
+      for (let i = 0; i < result.length; i += 1) {
         const tr = document.createElement('tr');
         table.append(tr);
         for (const key in result[i]) {

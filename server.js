@@ -66,39 +66,39 @@ app.get('/', (req, res) => {
 app.post('/main/select', urlencodedParser, (req, res) => {
   let select = 'select * FROM employee';
   select += ' where ';
-  if ((!req.body.idFrom > -1) && (req.body.idFrom == '')) {
+  if ((!req.body.idFrom > -1) && (req.body.idFrom === '')) {
     req.body.idFrom = 0;
   }
   select += `${req.body.idFrom}<=id`;
 
-  if ((req.body.idTo > -1) && (req.body.idTo != '')) {
+  if ((req.body.idTo > -1) && (req.body.idTo !== '')) {
     select += ` and id<=${req.body.idTo}`;
   }
-  if (req.body.firstname != '') {
+  if (req.body.firstname !== '') {
     select += ` and firstname= '${req.body.firstname}'`;
   }
-  if (req.body.lastname != '') {
+  if (req.body.lastname !== '') {
     select += ` and lastname= '${req.body.lastname}'`;
   }
-  if (req.body.email != '') {
+  if (req.body.email !== '') {
     select += ` and email= '${req.body.email}'`;
   }
-  if (req.body.number != '') {
+  if (req.body.number !== '') {
     select += ` and number= '${req.body.number}'`;
   }
-  if ((req.body.costFrom > -1) && (req.body.costFrom != '')) {
+  if ((req.body.costFrom > -1) && (req.body.costFrom !== '')) {
     select += ` and cost<=${req.body.costFrom}`;
   }
-  if ((req.body.costTo > -1) && (req.body.costTo != '')) {
+  if ((req.body.costTo > -1) && (req.body.costTo !== '')) {
     select += ` and cost<=${req.body.costTo}`;
   }
-  if (req.body.dateFrom != '') {
+  if (req.body.dateFrom !== '') {
     select += ` and date<='${req.body.dateFrom}'`;
   }
-  if (req.body.dateTo != '') {
+  if (req.body.dateTo !== '') {
     select += ` and date<='${req.body.dateTo}'`;
   }
-  if (req.body.status != '') {
+  if (req.body.status !== '') {
     select += ` and status= '${req.body.status}'`;
   }
   selectForDB(select).then(
@@ -173,7 +173,6 @@ app.post('/main', urlencodedParser, (req, res) => {
               res.render('main', { elem: result, user: req.body.userName });
             },
           );
-          return 1;
         }
       }
       res.render('login', { message: 'Неверный логин или пароль' });
