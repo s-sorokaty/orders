@@ -173,6 +173,7 @@ app.post('/main', urlencodedParser, (req, res) => {
               res.render('main', { elem: result, user: req.body.userName });
             },
           );
+          return 1;
         }
       }
       res.render('login', { message: 'Неверный логин или пароль' });
