@@ -4,8 +4,7 @@ const { Client } = require('pg');
 const urlencodedParser = express.urlencoded({ extended: false });
 const app = express();
 
-
-app.use(express.urlencoded({ extended: true }))
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 const order = new Client({
@@ -28,7 +27,6 @@ async function startApp() {
 }
 
 startApp();
-
 
 // запрос к базе данных
 async function selectForDB(select) {
@@ -63,8 +61,6 @@ app.get('/', (req, res) => {
   console.log('user is connecting');
   res.render('login', { message: '' });
 });
-
-
 
 // запрос на обращение к бд
 app.post('/main/select', urlencodedParser, (req, res) => {
@@ -117,17 +113,26 @@ app.post('/main/select', urlencodedParser, (req, res) => {
 
 // запрос на создание элемента
 app.post('/create', urlencodedParser, (req, res) => {
+  req.body.date = new Date(Date.parse(req.body.date));
   selectForDB('select id FROM employee').then(
     (result) => {
-      for (const array of result) if (!(array.id != req.body.id)) throw 'haveOrder';
-      insertOne(req.body).then(
-        (result) => {
-          res.json(''+result);
-        },
-        (error) => {
-          res.json(''+error);
-        },
-      );
+      try {
+        for (const array of result) {
+          if (!(array.id != req.body.id)) {
+            throw 'Повторная запись по данному id';
+          }
+        }
+        insertOne(req.body).then(
+          (result) => {
+            res.json(`${result}`);
+          },
+          (error) => {
+            res.json(`${error}`);
+          },
+        );
+      } catch (e) {
+        res.json(`${e}`);
+      }
     },
     (error) => {
       res.json(`Ошибка сервера: ${error}`);
@@ -136,7 +141,8 @@ app.post('/create', urlencodedParser, (req, res) => {
 });
 
 // запрос на изменение существующего элемента
-app.post('/editor', (req, res) => {
+app.post('/editor', urlencodedParser, (req, res) => {
+  req.body.date = new Date(Date.parse(req.body.date));
   selectForDB(`select * FROM employee where id = ${req.body.id}`).then(
     (result) => {
       for (const key in result[0]) {
@@ -164,13 +170,13 @@ app.post('/main', urlencodedParser, (req, res) => {
         if ((array.name == req.body.userName) && (array.password == req.body.userPassword)) {
           selectForDB('select * FROM employee where id = 0').then(
             (result) => {
-              res.render('main', { elem: result,user:req.body.userName});
+              res.render('main', { elem: result, user: req.body.userName });
             },
           );
           return 1;
         }
       }
-      res.render('login', { message: 'Неверный логин или пароль'});
+      res.render('login', { message: 'Неверный логин или пароль' });
     },
     (error) => {
       res.send(error);

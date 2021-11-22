@@ -7,10 +7,6 @@ head
       include style.css
   title Document
 
-
-div 
- p= you 
- p= right 
 .select
   div(id="selectorElem")
    legend ID
@@ -64,7 +60,7 @@ div
           th cost
           th date
           th status     
-
+ -if(user=='manager'||user=='admin'){
  div(id="userInf")
     label
       input(type='text' id='id' name='id' pattern="^[ 0-9]+$")
@@ -84,8 +80,10 @@ div
       input(type='text' id='status' name='status' )
     br
     input(type='submit' id="addElem")
-
+ -}
          
 script
       include script.js
+      -if(user=='manager'||user=='admin'){
       include scriptForChange.js
+      -}
