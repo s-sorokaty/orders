@@ -9,6 +9,7 @@ head
 
 .select
   div(id="selectorElem")
+   h1 Критерии запроса к базе данных
    legend ID
    label
     | от:
@@ -51,6 +52,7 @@ head
 
 .tab
  table#tabOfElem
+      thead
         tr
           th id
           th firstname
@@ -59,27 +61,28 @@ head
           th number
           th cost
           th date
-          th status     
+          th status  
+      tbody    
  -if(user=='manager'||user=='admin'){
  div(id="userInf")
     label
-      input(type='text' id='id' name='id' pattern="^[ 0-9]+$")
+      input(type='text' id='id' name='id' pattern="^[ 0-9]+$" placeholder="id")
     label
-      input(type='text' id='firstname'  name='firstname')
+      input(type='text' id='firstname'  name='firstname' placeholder="firstname")
     label
-      input(type='text' id='lastname' name='lastname')
+      input(type='text' id='lastname' name='lastname' placeholder="lastname")
     label
-      input(type='text' id='email' name='email')
+      input(type='text' id='email' name='email' placeholder="email")
     label
-      input(type='text'  id='number' name='number' pattern="^[ 0-9]+$")
+      input(type='text'  id='number' name='number' pattern="^[ 0-9]+$" placeholder="number")
     label
-      input(type='text' id='cost' name='cost' pattern="^[ 0-9]+$")
+      input(type='text' id='cost' name='cost' pattern="^[ 0-9]+$" placeholder="cost")
     label
-      input(type='text' id='date' name='date' )
+      input(type='text' id='date' name='date' placeholder="ГГГГ-ММ-ДД ЧЧ-ММ-СС+ЧП")
     label
-      input(type='text' id='status' name='status' )
+      input(type='text' id='status' name='status' placeholder="status")
     br
-    input(type='submit' id="addElem")
+    input(type='submit' value="Добавить запись в таблицу" id="addElem")
  -}
          
 script

@@ -15,8 +15,11 @@ const tableElem = [
 
 let elemBef = document.createElement('tr');
 
+
+
 tabOfElem.onmousedown = function (event) {
   correctForm();
+
   const divBef = document.querySelector('.currentEl');
   const buttonBef1 = document.querySelector('.delete');
   const buttonBef2 = document.querySelector('.change');
@@ -31,7 +34,7 @@ tabOfElem.onmousedown = function (event) {
 
           div.className = 'currentEl';
           div.innerHTML = `id = ${tabOfElem.rows[i].cells[0].innerHTML}`;
-          document.body.append(div);
+           document.body.append(div);
 
           button1.className = 'delete';
           button1.innerHTML = 'Удалить';
@@ -57,7 +60,6 @@ delEl.onclick = function () {
     };
     queryForDB(del, '/delete').then((result) => {
       alert(result);
-      location.reload();
     });
   }
 };
@@ -108,7 +110,6 @@ changeEl.onclick = function () {
     queryForDB(elemToChange, '/editor').then((result) => {
       alert(result);
       popUp.click();
-      getElem.click();
     });
   };
 };

@@ -11,7 +11,7 @@ const order = new Client({
   host: 'localhost',
   user: 'postgres',
   port: 5432,
-  password: '1',
+  password: '082424',
   database: 'order',
 });
 app.set('views', './views');

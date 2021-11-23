@@ -52,7 +52,6 @@ if (addedPanel != null) {
     };
     queryForDB(elemToAdd, '/create').then((result) => {
       alert(result);
-      getElem.click();
     });
   };
 }
@@ -76,7 +75,9 @@ getElem.onclick = function (event) {
     status: child[10].value,
   };
   queryForDB(elemToAdd, '/main/select').then((result) => {
-    const table = document.getElementById('tabOfElem');
+    let table = document.getElementById('tabOfElem');
+    table = table.children;
+    table=table[1];
     if (typeof result === 'object') {
       for (let i = 0; i < result.length; i += 1) {
         const tr = document.createElement('tr');
@@ -95,3 +96,27 @@ getElem.onclick = function (event) {
     correctForm();
   });
 };
+
+document.addEventListener('DOMContentLoaded', () => {
+
+  const getSort = ({ target }) => {
+      const order = (target.dataset.order = -(target.dataset.order || -1));
+      const index = [...target.parentNode.cells].indexOf(target);
+      const collator = new Intl.Collator(['en', 'ru'], { numeric: true });
+      const comparator = (index, order) => (a, b) => order * collator.compare(
+          a.children[index].innerHTML,
+          b.children[index].innerHTML
+      );
+      
+      for(const tBody of target.closest('table').tBodies)
+          tBody.append(...[...tBody.rows].sort(comparator(index, order)));
+
+      for(const cell of target.parentNode.cells)
+          cell.classList.toggle('sorted', cell === target);
+  };
+  
+  document.querySelectorAll('table th').forEach(tableTH => tableTH.addEventListener('click', () => getSort(event)));
+  
+});
+
+  
