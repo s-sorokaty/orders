@@ -5,20 +5,23 @@ head
   meta(name='viewport' content='width=device-width, initial-scale=1.0')
   style
       include style.css
-  title Регистрация
+  title "ИС по контролю выполнения заказов"
 
   h1= message
 
-form(method='post' action='/main' )
-  label Логин
-  br
-  input(type='text' name='userName')
-  br
-  br
-  label Пароль
-  br
-  input(type='password' name='userPassword')
-  br
-  br
-  input(type='submit' value='Отправить')
+div#loginField 
+ form(method='post' action='/main' )
+  fieldset 
+   legend Вход 
+   label Логин
+   br
+   input(type='text' name='userName')
+   br
+   br
+   label Пароль
+   br
+   input(type='password' name='userPassword')
+   br
+   br
+   input(type='submit' value='Отправить')
 

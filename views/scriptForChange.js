@@ -2,6 +2,7 @@ const div = document.createElement('div');
 const button1 = document.createElement('button');
 const button2 = document.createElement('button');
 const button3 = document.createElement('button');
+const panel = document.createElement('div');
 const delEl = button1;
 const changeEl = button2;
 const tableElem = [
@@ -11,38 +12,34 @@ const tableElem = [
   'number',
   'cost',
   'date',
-  'status'];
+  'status',
+  'description'];
 
 let elemBef = document.createElement('tr');
 
-
-
 tabOfElem.onmousedown = function (event) {
   correctForm();
-
-  const divBef = document.querySelector('.currentEl');
-  const buttonBef1 = document.querySelector('.delete');
-  const buttonBef2 = document.querySelector('.change');
-  if (divBef != null && buttonBef1 != null && buttonBef2 != null) { delElem(divBef, buttonBef1, buttonBef2); }
-
+  const panelBef = document.querySelector('.panel');
+  if (panelBef != null) { delElem(panelBef); }
   if (event.which === 1) {
     for (let i = 1; i < tabOfElem.rows.length; i += 1) {
-      for (let j = 0; j < 8; j += 1) {
+      for (let j = 0; j < 9; j += 1) {
         if (event.target === tabOfElem.rows[i].cells[j]) {
           event.target.parentElement.className = 'selected';
           elemBef.classList.remove('selected');
-
+          panel.className = 'panel';
+          document.body.append(panel);
           div.className = 'currentEl';
-          div.innerHTML = `id = ${tabOfElem.rows[i].cells[0].innerHTML}`;
-           document.body.append(div);
+          div.innerHTML = `Выбран элемент с id = ${tabOfElem.rows[i].cells[0].innerHTML}`;
+          panel.append(div);
 
           button1.className = 'delete';
           button1.innerHTML = 'Удалить';
-          document.body.append(button1);
+          panel.append(button1);
 
           button2.className = 'change';
           button2.innerHTML = 'Изменить';
-          document.body.append(button2);
+          panel.append(button2);
 
           if (!(elemBef === event.target.parentElement)) { elemBef = event.target.parentElement; } else { event.target.parentElement.className = 'selected'; }
         }
@@ -55,8 +52,9 @@ tabOfElem.onmousedown = function (event) {
 delEl.onclick = function () {
   const result = confirm(`Вы хотите удалить элемент ${div.innerHTML}?`);
   if (result === true) {
+    const currentId = document.querySelector('.selected td');
     const del = {
-      id: div.innerHTML.slice(-1),
+      id: currentId.innerHTML,
     };
     queryForDB(del, '/delete').then((result) => {
       alert(result);
@@ -65,6 +63,9 @@ delEl.onclick = function () {
 };
 
 changeEl.onclick = function () {
+  const panelBef = document.querySelector('.panel');
+  if (panelBef != null) { delElem(panelBef); }
+
   const elements = document.querySelector('.selected').children;
   const popUp = document.createElement('div');
   popUp.className = 'b-popup';
@@ -73,13 +74,18 @@ changeEl.onclick = function () {
   divCont.className = 'b-popup-content';
   divCont.innerHTML = `id = ${div.innerHTML.slice(-1)}<br>`;
   popUp.append(divCont);
-  for (let i = 0; i < 7; i += 1) {
+  for (let i = 0; i < 8; i += 1) {
+    const br = document.createElement('br');
     const label = document.createElement('label');
     label.innerHTML = tableElem[i];
     const input = document.createElement('input');
     input.value = elements[i + 1].innerHTML;
     divCont.append(label);
     label.append(input);
+    label.append(br);
+    if (i == 7) {
+      input.className = 'description';
+    }
   }
   button3.innerHTML = 'Изменить';
   divCont.append(button3);
@@ -92,13 +98,14 @@ changeEl.onclick = function () {
       if (divBef != null && buttonBef1 != null && buttonBef2 != null) { delElem(divBef, buttonBef1, buttonBef2); }
       elemBef.classList.remove('selected');
     }
+    correctForm();
   };
   button3.onclick = function () {
     const elems = divCont.querySelectorAll('input');
-    const id = document.querySelector('.currentEl').innerHTML.slice(-1);
+    const currentId = document.querySelector('.selected td').innerHTML;
 
     const elemToChange = {
-      id,
+      id: currentId,
       firstname: elems[0].value,
       lastname: elems[1].value,
       email: elems[2].value,
@@ -106,10 +113,13 @@ changeEl.onclick = function () {
       cost: elems[4].value,
       date: elems[5].value,
       status: elems[6].value,
+      desription: elems[7].value,
     };
     queryForDB(elemToChange, '/editor').then((result) => {
       alert(result);
       popUp.click();
+      getElem.click();
+      correctForm();
     });
   };
 };

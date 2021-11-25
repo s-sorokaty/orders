@@ -11,7 +11,7 @@ const order = new Client({
   host: 'localhost',
   user: 'postgres',
   port: 5432,
-  password: '082424',
+  password: '1',
   database: 'order',
 });
 app.set('views', './views');
@@ -44,9 +44,9 @@ async function selectForDB(select) {
 
 // Метод для вставки элементов в бд
 async function insertOne(elem) {
-  const insertText = 'INSERT INTO employee(id, firstname, lastname, email, number, cost, date, status) VALUES($1, $2, $3, $4, $5, $6, $7, $8)';
+  const insertText = 'INSERT INTO employee(id, firstname, lastname, email, number, cost, date, status, desription) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9)';
   const ans = new Promise((resolve, reject) => {
-    order.query(insertText, [elem.id, elem.firstname, elem.lastname, elem.email, elem.number, elem.cost, elem.date, elem.status], (err, res) => {
+    order.query(insertText, [elem.id, elem.firstname, elem.lastname, elem.email, elem.number, elem.cost, elem.date, elem.status, elem.desription], (err, res) => {
       if (!err) {
         resolve('Запись добавлена');
       } else {

@@ -5,11 +5,17 @@ head
   meta(name='viewport' content='width=device-width, initial-scale=1.0')
   style
       include style.css
-  title Document
+  title ИС по контролю выполнения заказов
+
+
+div#header 
+ p ИС по контролю выполнения заказов
+ 
 
 .select
-  div(id="selectorElem")
-   h1 Критерии запроса к базе данных
+ div(id="selectorElem")
+  h1 Критерии запроса к базе данных
+  div
    legend ID
    label
     | от:
@@ -62,6 +68,7 @@ head
           th cost
           th date
           th status  
+          th description  
       tbody    
  -if(user=='manager'||user=='admin'){
  div(id="userInf")
@@ -81,6 +88,8 @@ head
       input(type='text' id='date' name='date' placeholder="ГГГГ-ММ-ДД ЧЧ-ММ-СС+ЧП")
     label
       input(type='text' id='status' name='status' placeholder="status")
+    label
+      input(type='text' id='description' name='description' placeholder="description")
     br
     input(type='submit' value="Добавить запись в таблицу" id="addElem")
  -}

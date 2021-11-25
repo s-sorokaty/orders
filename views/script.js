@@ -29,7 +29,7 @@ function correctForm() {
   const elem = document.querySelectorAll('table tr th');
   const elem2 = document.querySelectorAll('#userInf label input');
   if (elem2.length !== 0) {
-    for (let i = 0; i < 8; i += 1) {
+    for (let i = 0; i < 9; i += 1) {
       elem2[i].style.width = `${elem[i].clientWidth - 7}px`;
       elem2[i].style.height = `${elem[i].clientHeight - 7}px`;
     }
@@ -58,7 +58,7 @@ if (addedPanel != null) {
 
 getElem.onclick = function (event) {
   message.remove();
-  const elemBef = document.querySelectorAll('table tr td');
+  const elemBef = document.querySelectorAll('table tbody tr ');
   if (elemBef.length > 0) { delElemBef(elemBef); }
   const child = event.target.parentElement.querySelectorAll('input');
   const elemToAdd = {
@@ -77,7 +77,7 @@ getElem.onclick = function (event) {
   queryForDB(elemToAdd, '/main/select').then((result) => {
     let table = document.getElementById('tabOfElem');
     table = table.children;
-    table=table[1];
+    table = table[1];
     if (typeof result === 'object') {
       for (let i = 0; i < result.length; i += 1) {
         const tr = document.createElement('tr');
@@ -98,25 +98,19 @@ getElem.onclick = function (event) {
 };
 
 document.addEventListener('DOMContentLoaded', () => {
-
   const getSort = ({ target }) => {
-      const order = (target.dataset.order = -(target.dataset.order || -1));
-      const index = [...target.parentNode.cells].indexOf(target);
-      const collator = new Intl.Collator(['en', 'ru'], { numeric: true });
-      const comparator = (index, order) => (a, b) => order * collator.compare(
-          a.children[index].innerHTML,
-          b.children[index].innerHTML
-      );
-      
-      for(const tBody of target.closest('table').tBodies)
-          tBody.append(...[...tBody.rows].sort(comparator(index, order)));
+    const order = (target.dataset.order = -(target.dataset.order || -1));
+    const index = [...target.parentNode.cells].indexOf(target);
+    const collator = new Intl.Collator(['en', 'ru'], { numeric: true });
+    const comparator = (index, order) => (a, b) => order * collator.compare(
+      a.children[index].innerHTML,
+      b.children[index].innerHTML,
+    );
 
-      for(const cell of target.parentNode.cells)
-          cell.classList.toggle('sorted', cell === target);
+    for (const tBody of target.closest('table').tBodies) { tBody.append(...[...tBody.rows].sort(comparator(index, order))); }
+
+    for (const cell of target.parentNode.cells) { cell.classList.toggle('sorted', cell === target); }
   };
-  
-  document.querySelectorAll('table th').forEach(tableTH => tableTH.addEventListener('click', () => getSort(event)));
-  
-});
 
-  
+  document.querySelectorAll('table th').forEach((tableTH) => tableTH.addEventListener('click', () => getSort(event)));
+});

@@ -1,12 +1,48 @@
 body{
-    background-color: rgb(194, 218, 223);
+    background-color: rgb(145, 184, 182);
+    padding: 0px;
 }
-td:hover{
-    color: red;
+.description{
+    height: 200px;
+    width: 100px;
 }
+.panel{ 
+    position:absolute ; 
+    right: 20px;
+    opacity: 90%;
+}
+#header{
+    background-color: rgb(218, 218, 238);
+    height: 100px;
+    margin: -10px -10px 20px -10px;
+    position: relative;
+    border: 1px solid black;
+}
+#header p {
+    font-size: 30px;
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%) }
+
+
+#loginField{
+    height: 10em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+    #loginField form fieldset{
+            background: linear-gradient(rgb(187, 187, 230), pink);
+    }
 
 input{
-    background-color: rgb(175, 240, 218);
+    background-color: rgb(200, 226, 217);
+}
+#selectorElem div{
+    border: 1px solid rgb(17, 4, 4);
 }
 
 .select{
@@ -17,9 +53,11 @@ input{
 .tab{
     float: left;
     padding-left: 100px;
-
     margin: 2px;
 }
+
+
+
 
 table {
     font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
@@ -43,36 +81,20 @@ table {
     th:first-child, td:first-child {
     text-align: left;
     }
+    td:hover{
+        color: red;
+    }
     .selected{
         border: 2px solid rgb(253, 0, 0);
-        font-size: 16px;
+        font-size: 14px;
     }
-
-    .b-popup{
-        width:100%;
-        min-height:100%;
-        background-color: rgba(0,0,0,0.5);
-        overflow:hidden;
-        position:fixed;
-        top:0px;
-    }
-    .b-popup .b-popup-content{
-        margin:40px auto 0px auto;
-        width:1000px;
-        height: 400px;
-        padding:10px;
-        background-color: #c5c5c5;
-        border-radius:5px;
-        box-shadow: 0px 0px 10px #000;
-    }
-
     .table_sort table {
         border-collapse: collapse;
     }
     
     .table_sort th {
         color: #ffebcd;
-        background: #008b8b;
+        background: #85c7c7;
         cursor: pointer;
     }
     
@@ -106,4 +128,26 @@ table {
     th.sorted[data-order="1"]::after {
         content: "▼"
     }
+
+
+
+
+.b-popup{
+        width:100%;
+        min-height:100%;
+        background-color: rgba(0,0,0,0.5);
+        overflow:hidden;
+        position:fixed;
+        top:0px;
+    }
+    .b-popup .b-popup-content{
+        margin:40px auto 0px auto;
+        width: 300px;
+        padding:10px;
+        background-color: #b5d1b7;
+        border-radius:5px;
+        box-shadow: 0px 0px 10px #000;
+    }
+
+    
 
