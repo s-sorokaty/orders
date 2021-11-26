@@ -14,6 +14,11 @@ const tableElem = [
   'date',
   'status',
   'description'];
+const stat = [
+  'Любой',
+  'Выполняется',
+  'Выполнен',
+];
 
 let elemBef = document.createElement('tr');
 
@@ -30,7 +35,7 @@ tabOfElem.onmousedown = function (event) {
           panel.className = 'panel';
           document.body.append(panel);
           div.className = 'currentEl';
-          div.innerHTML = `Выбран элемент с id = ${tabOfElem.rows[i].cells[0].innerHTML}`;
+          div.innerHTML = `Выбран элемент id = ${tabOfElem.rows[i].cells[0].innerHTML}`;
           panel.append(div);
 
           button1.className = 'delete';
@@ -57,7 +62,7 @@ delEl.onclick = function () {
       id: currentId.innerHTML,
     };
     queryForDB(del, '/delete').then((result) => {
-      alert(result);
+      showMessage(result);
     });
   }
 };
@@ -79,13 +84,35 @@ changeEl.onclick = function () {
     const label = document.createElement('label');
     label.innerHTML = tableElem[i];
     const input = document.createElement('input');
-    input.value = elements[i + 1].innerHTML;
     divCont.append(label);
-    label.append(input);
-    label.append(br);
-    if (i == 7) {
-      input.className = 'description';
+    if (i === 5) {
+      input.type = 'datetime-local';
+      console.log(parseDate(elements[i + 1].innerHTML));
+      input.value = parseDate(elements[i + 1].innerHTML);
+      label.append(input);
+    } else
+    if (i === 6) {
+      const select = document.createElement('select');
+      label.append(select);
+      console.log(elements[i + 1].innerHTML);
+      for (let j = 1; j < 3; j += 1) {
+        const option = document.createElement('option');
+        option.value = j;
+        option.text = stat[j];
+        select.append(option);
+      }
+      select.value = parseStat(elements[i + 1].innerHTML);
+    } else
+    if (i === 7) {
+      const textarea = document.createElement('textarea');
+      textarea.value = elements[i + 1].innerHTML;
+      label.append(textarea);
+      textarea.className = 'description';
+    } else {
+      input.value = elements[i + 1].innerHTML;
+      label.append(input);
     }
+    label.append(br);
   }
   button3.innerHTML = 'Изменить';
   divCont.append(button3);
@@ -103,7 +130,7 @@ changeEl.onclick = function () {
   button3.onclick = function () {
     const elems = divCont.querySelectorAll('input');
     const currentId = document.querySelector('.selected td').innerHTML;
-
+    console.log(divCont.querySelector('select').value);
     const elemToChange = {
       id: currentId,
       firstname: elems[0].value,
@@ -112,11 +139,11 @@ changeEl.onclick = function () {
       number: elems[3].value,
       cost: elems[4].value,
       date: elems[5].value,
-      status: elems[6].value,
-      desription: elems[7].value,
+      status: divCont.querySelector('select').value,
+      desription: divCont.querySelector('textarea').value,
     };
     queryForDB(elemToChange, '/editor').then((result) => {
-      alert(result);
+      showMessage(result);
       popUp.click();
       getElem.click();
       correctForm();

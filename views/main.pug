@@ -14,12 +14,13 @@ div#header
 
 .select
  div(id="selectorElem")
-  h1 Критерии запроса к базе данных
+  h1 Критерии запроса 
   div
    legend ID
    label
-    | от:
+    | от: 
     input(type='text' name='idFrom' pattern="^[ 0-9]+$")
+    br
    label
     | до:
     input(type='text' name='idTo' pattern="^[ 0-9]+$")
@@ -37,21 +38,26 @@ div#header
     input(type='text' name='number' pattern="^[ 0-9]+$")
    legend Цена заказа
    label
-    | &ocy;&tcy;:
+    | от: 
     input(type='text' name='costFrom' pattern="^[ 0-9]+$")
    label
-    | &dcy;&ocy;:
+    br
+    | до:
     input(type='text' name='costTo' pattern="^[ 0-9]+$")
    legend Дата
    label
-    | от:
-    input(type='text' name='dateFrom'  placeholder="ГГГГ-ММ-ДД ЧЧ-ММ-СС+ЧП")
+    | от: 
+    input(type='datetime-local' name='dateFrom'  placeholder="ГГГГ-ММ-ДД ЧЧ-ММ-СС+ЧП")
+    br
    label
     | до:
-    input(type='text' name='dateTo' placeholder="ГГГГ-ММ-ДД ЧЧ-ММ-СС+ЧП")
+    input(type='datetime-local' name='dateTo' placeholder="ГГГГ-ММ-ДД ЧЧ-ММ-СС+ЧП")
    legend &Scy;&tcy;&acy;&tcy;&ucy;&scy; &zcy;&acy;&kcy;&acy;&zcy;&acy;
    label
-    input(type='text' name='status' pattern="^[ 0-2]+$")
+    select#stat
+     option(value="") Любой
+     option(value="1") Выполняется
+     option(value="2") Выполнен
     <br>
    input(type='submit' id="getElem")
    p= err
@@ -85,9 +91,11 @@ div#header
     label
       input(type='text' id='cost' name='cost' pattern="^[ 0-9]+$" placeholder="cost")
     label
-      input(type='text' id='date' name='date' placeholder="ГГГГ-ММ-ДД ЧЧ-ММ-СС+ЧП")
+      input(type='datetime-local' id='date' name='date' placeholder="ГГГГ-ММ-ДД ЧЧ-ММ-СС+ЧП")
     label
-      input(type='text' id='status' name='status' placeholder="status")
+     select#stat
+      option(value="1") Выполняется
+      option(value="2") Выполнен
     label
       input(type='text' id='description' name='description' placeholder="description")
     br

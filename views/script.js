@@ -1,12 +1,57 @@
 correctForm();
 
-const message = document.createElement('div');
+function showMessage(value) {
+  const elemBef = document.querySelectorAll('.message');
+  console.log(elemBef);
+  if (elemBef.length !== 0) {
+    delElem(elemBef[0]);
+  }
+  const serverMessage = document.createElement('div');
+  serverMessage.className = 'message';
+  // serverMessage.innerHTML=value;
+  document.body.append(serverMessage);
+  const p = document.createElement('p');
+  p.innerHTML = value[0].toUpperCase() + value.slice(1);
+  serverMessage.append(p);
+  setTimeout(() => { serverMessage.remove(); }, 5000);
+}
+
+// Для вставки даты в input
+function parseDate(val) {
+  val = new Date(val);
+  let month = val.getMonth();
+  if (month < 10) {
+    month = `0${month}`;
+  }
+  let day = val.getDate();
+  if (day < 10) {
+    day = `0${day}`;
+  }
+  let hours = val.getHours();
+  if (hours < 10) {
+    hours = `0${hours}`;
+  }
+  let min = val.getMinutes();
+  if (min < 10) {
+    min = `0${min}`;
+  }
+  const date = `${val.getFullYear()}-${month}-${day}T${hours}:${min}`;
+  return date;
+}
+function parseStat(val) {
+  if (val === 'Любой') return '';
+  if (val === 'Выполняется') return 1;
+  if (val === 'Выполнен') return 2;
+}
 function delElem(...args) {
   for (const key in args) {
     const elem = args[key];
     elem.remove();
   }
 }
+
+const message = document.createElement('div');
+message.className = 'message';
 function delElemBef(...args) {
   for (let i = 0; i < args[0].length; i += 1) {
     args[0][i].remove();
@@ -27,11 +72,11 @@ async function queryForDB(elemInJSON, queryToServer) {
 
 function correctForm() {
   const elem = document.querySelectorAll('table tr th');
-  const elem2 = document.querySelectorAll('#userInf label input');
+  const elem2 = document.querySelectorAll('#userInf label>*');
   if (elem2.length !== 0) {
     for (let i = 0; i < 9; i += 1) {
-      elem2[i].style.width = `${elem[i].clientWidth - 7}px`;
-      elem2[i].style.height = `${elem[i].clientHeight - 7}px`;
+      elem2[i].style.width = `${elem[i].clientWidth - 6}px`;
+      elem2[i].style.height = `${elem[i].clientHeight - 6}px`;
     }
   }
 }
@@ -48,19 +93,22 @@ if (addedPanel != null) {
       number: child[4].querySelector('input').value,
       cost: child[5].querySelector('input').value,
       date: child[6].querySelector('input').value,
-      status: child[7].querySelector('input').value,
+      status: child[7].querySelector('select').value,
+      desription: child[8].querySelector('input').value,
     };
     queryForDB(elemToAdd, '/create').then((result) => {
-      alert(result);
+      getElem.click();
+      correctForm();
+      showMessage(result);
     });
   };
 }
 
 getElem.onclick = function (event) {
-  message.remove();
   const elemBef = document.querySelectorAll('table tbody tr ');
   if (elemBef.length > 0) { delElemBef(elemBef); }
-  const child = event.target.parentElement.querySelectorAll('input');
+  const child = event.target.parentElement.querySelectorAll('label>input');
+  const stat = document.getElementById('stat');
   const elemToAdd = {
     idFrom: child[0].value,
     idTo: child[1].value,
@@ -72,7 +120,7 @@ getElem.onclick = function (event) {
     costTo: child[7].value,
     dateFrom: child[8].value,
     dateTo: child[9].value,
-    status: child[10].value,
+    status: stat.value,
   };
   queryForDB(elemToAdd, '/main/select').then((result) => {
     let table = document.getElementById('tabOfElem');
@@ -84,15 +132,21 @@ getElem.onclick = function (event) {
         table.append(tr);
         for (const key in result[i]) {
           const td = document.createElement('td');
-          if (key == 'date') { td.innerHTML = new Date(result[i][key]); } else { td.innerHTML = result[i][key]; }
+          if (key === 'date') td.innerHTML = parseDate(result[i][key]).replace('T', ' ');
+          else
+          if (key === 'status') {
+            if (result[i][key] === 1) {
+              td.innerHTML = 'Выполняется';
+            }
+            if (result[i][key] === 2) td.innerHTML = 'Выполнен';
+          } else
+          if (key === 'date') { td.innerHTML = new Date(result[i][key]); } else { td.innerHTML = result[i][key]; }
           tr.append(td);
         }
       }
     } else {
-      message.innerHTML = result;
-      selectorElem.append(message);
+      showMessage(result);
     }
-
     correctForm();
   });
 };

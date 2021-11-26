@@ -71,7 +71,7 @@ app.post('/main/select', urlencodedParser, (req, res) => {
   }
   select += `${req.body.idFrom}<=id`;
 
-  if ((req.body.idTo > -1) && (req.body.idTo !== '')) {
+  if ((req.body.idTo > 0) && (req.body.idTo !== '')) {
     select += ` and id<=${req.body.idTo}`;
   }
   if (req.body.firstname !== '') {
@@ -87,13 +87,13 @@ app.post('/main/select', urlencodedParser, (req, res) => {
     select += ` and number= '${req.body.number}'`;
   }
   if ((req.body.costFrom > -1) && (req.body.costFrom !== '')) {
-    select += ` and cost<=${req.body.costFrom}`;
+    select += ` and cost>=${req.body.costFrom}`;
   }
   if ((req.body.costTo > -1) && (req.body.costTo !== '')) {
     select += ` and cost<=${req.body.costTo}`;
   }
   if (req.body.dateFrom !== '') {
-    select += ` and date<='${req.body.dateFrom}'`;
+    select += ` and date>='${req.body.dateFrom}'`;
   }
   if (req.body.dateTo !== '') {
     select += ` and date<='${req.body.dateTo}'`;
