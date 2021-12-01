@@ -1,21 +1,5 @@
 correctForm();
 
-function showMessage(value) {
-  const elemBef = document.querySelectorAll('.message');
-  console.log(elemBef);
-  if (elemBef.length !== 0) {
-    delElem(elemBef[0]);
-  }
-  const serverMessage = document.createElement('div');
-  serverMessage.className = 'message';
-  // serverMessage.innerHTML=value;
-  document.body.append(serverMessage);
-  const p = document.createElement('p');
-  p.innerHTML = value[0].toUpperCase() + value.slice(1);
-  serverMessage.append(p);
-  setTimeout(() => { serverMessage.remove(); }, 5000);
-}
-
 // Для вставки даты в input
 function parseDate(val) {
   val = new Date(val);
@@ -50,8 +34,7 @@ function delElem(...args) {
   }
 }
 
-const message = document.createElement('div');
-message.className = 'message';
+
 function delElemBef(...args) {
   for (let i = 0; i < args[0].length; i += 1) {
     args[0][i].remove();

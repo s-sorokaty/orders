@@ -41,13 +41,14 @@ body{
 
 
 #loginField{
+    margin-top: 200px;
     height: 10em;
     display: flex;
     align-items: center;
     justify-content: center;
 }
     #loginField form fieldset{
-            background: linear-gradient(rgb(187, 187, 230), pink);
+            background: linear-gradient(rgb(177, 177, 231), rgb(248, 235, 238));
     }
 
 input{
@@ -83,7 +84,6 @@ table {
     font-size: 14px;
     border-collapse: collapse;
     text-align: center;
-    border: 2px solid black;
     }
     tr th:nth-child(7){
         width: 150px;

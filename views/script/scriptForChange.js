@@ -22,6 +22,7 @@ const stat = [
 
 let elemBef = document.createElement('tr');
 
+//выбор элемента для редактирования
 tabOfElem.onmousedown = function (event) {
   correctForm();
   const panelBef = document.querySelector('.panel');
@@ -53,7 +54,7 @@ tabOfElem.onmousedown = function (event) {
   }
   correctForm();
 };
-
+//Кнопка удаления
 delEl.onclick = function () {
   const result = confirm(`Вы хотите удалить элемент ${div.innerHTML}?`);
   if (result === true) {
@@ -66,7 +67,7 @@ delEl.onclick = function () {
     });
   }
 };
-
+//Кнопка изменения с pop-up
 changeEl.onclick = function () {
   const panelBef = document.querySelector('.panel');
   if (panelBef != null) { delElem(panelBef); }

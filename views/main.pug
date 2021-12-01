@@ -1,109 +1,98 @@
-doctype html
-head
-  meta(charset='UTF-8')
-  meta(http-equiv='X-UA-Compatible' content='IE=edge')
-  meta(name='viewport' content='width=device-width, initial-scale=1.0')
-  style
-      include style.css
-  title ИС по контролю выполнения заказов
-
-
-div#header 
- p ИС по контролю выполнения заказов
- 
-
-.select
- div(id="selectorElem")
-  h1 Критерии запроса 
-  div
-   legend ID
-   label
-    | от: 
-    input(type='text' name='idFrom' pattern="^[ 0-9]+$")
-    br
-   label
-    | до:
-    input(type='text' name='idTo' pattern="^[ 0-9]+$")
-   legend &Icy;&mcy;&yacy;
-   label
-    input(type='text' name='firstname')
-   legend &Fcy;&acy;&mcy;&icy;&lcy;&icy;&yacy;
-   label
-    input(type='text' name='lastname')
-   legend Email
-   label
-    input(type='text' name='email')
-   legend Телефонный номер
-   label
-    input(type='text' name='number' pattern="^[ 0-9]+$")
-   legend Цена заказа
-   label
-    | от: 
-    input(type='text' name='costFrom' pattern="^[ 0-9]+$")
-   label
-    br
-    | до:
-    input(type='text' name='costTo' pattern="^[ 0-9]+$")
-   legend Дата
-   label
-    | от: 
-    input(type='datetime-local' name='dateFrom'  placeholder="ГГГГ-ММ-ДД ЧЧ-ММ-СС+ЧП")
-    br
-   label
-    | до:
-    input(type='datetime-local' name='dateTo' placeholder="ГГГГ-ММ-ДД ЧЧ-ММ-СС+ЧП")
-   legend &Scy;&tcy;&acy;&tcy;&ucy;&scy; &zcy;&acy;&kcy;&acy;&zcy;&acy;
-   label
-    select#stat
-     option(value="") Любой
-     option(value="1") Выполняется
-     option(value="2") Выполнен
-    <br>
-   input(type='submit' id="getElem")
-   p= err
-
-.tab
- table#tabOfElem
-      thead
-        tr
-          th id
-          th firstname
-          th lastname
-          th email
-          th number
-          th cost
-          th date
-          th status  
-          th description  
-      tbody    
- -if(user=='manager'||user=='admin'){
- div(id="userInf")
+extends \templates\header.pug
+block content
+ .select
+  div(id="selectorElem")
+   h1 Критерии запроса 
+   div
+    legend ID
     label
-      input(type='text' id='id' name='id' pattern="^[ 0-9]+$" placeholder="id")
+     | от: 
+     input(type='text' name='idFrom' pattern="^[ 0-9]+$")
+     br
     label
-      input(type='text' id='firstname'  name='firstname' placeholder="firstname")
+     | до:
+     input(type='text' name='idTo' pattern="^[ 0-9]+$")
+    legend &Icy;&mcy;&yacy;
     label
-      input(type='text' id='lastname' name='lastname' placeholder="lastname")
+     input(type='text' name='firstname')
+    legend &Fcy;&acy;&mcy;&icy;&lcy;&icy;&yacy;
     label
-      input(type='text' id='email' name='email' placeholder="email")
+     input(type='text' name='lastname')
+    legend Email
     label
-      input(type='text'  id='number' name='number' pattern="^[ 0-9]+$" placeholder="number")
+     input(type='text' name='email')
+    legend Телефонный номер
     label
-      input(type='text' id='cost' name='cost' pattern="^[ 0-9]+$" placeholder="cost")
+     input(type='text' name='number' pattern="^[ 0-9]+$")
+    legend Цена заказа
     label
-      input(type='datetime-local' id='date' name='date' placeholder="ГГГГ-ММ-ДД ЧЧ-ММ-СС+ЧП")
+     | от: 
+     input(type='text' name='costFrom' pattern="^[ 0-9]+$")
+    label
+     br
+     | до:
+     input(type='text' name='costTo' pattern="^[ 0-9]+$")
+    legend Дата
+    label
+     | от: 
+     input(type='datetime-local' name='dateFrom'  placeholder="ГГГГ-ММ-ДД ЧЧ-ММ-СС+ЧП")
+     br
+    label
+     | до:
+     input(type='datetime-local' name='dateTo' placeholder="ГГГГ-ММ-ДД ЧЧ-ММ-СС+ЧП")
+    legend &Scy;&tcy;&acy;&tcy;&ucy;&scy; &zcy;&acy;&kcy;&acy;&zcy;&acy;
     label
      select#stat
+      option(value="") Любой
       option(value="1") Выполняется
       option(value="2") Выполнен
-    label
-      input(type='text' id='description' name='description' placeholder="description")
-    br
-    input(type='submit' value="Добавить запись в таблицу" id="addElem")
- -}
-         
-script
-      include script.js
-      -if(user=='manager'||user=='admin'){
-      include scriptForChange.js
-      -}
+     <br>
+    input(type='submit' id="getElem")
+    p= err
+ 
+ .tab
+  table#tabOfElem
+       thead
+         tr
+           th id
+           th firstname
+           th lastname
+           th email
+           th number
+           th cost
+           th date
+           th status  
+           th description  
+       tbody    
+  -if(user=='manager'||user=='admin'){
+  div(id="userInf")
+     label
+       input(type='text' id='id' name='id' pattern="^[ 0-9]+$" placeholder="id")
+     label
+       input(type='text' id='firstname'  name='firstname' placeholder="firstname")
+     label
+       input(type='text' id='lastname' name='lastname' placeholder="lastname")
+     label
+       input(type='text' id='email' name='email' placeholder="email")
+     label
+       input(type='text'  id='number' name='number' pattern="^[ 0-9]+$" placeholder="number")
+     label
+       input(type='text' id='cost' name='cost' pattern="^[ 0-9]+$" placeholder="cost")
+     label
+       input(type='datetime-local' id='date' name='date' placeholder="ГГГГ-ММ-ДД ЧЧ-ММ-СС+ЧП")
+     label
+      select#stat
+       option(value="1") Выполняется
+       option(value="2") Выполнен
+     label
+       input(type='text' id='description' name='description' placeholder="description")
+     br
+     input(type='submit' value="Добавить запись в таблицу" id="addElem")
+  -}
+          
+ script
+       include script/script.js
+       include script/message.js
+       -if(user=='manager'||user=='admin'){
+       include script/scriptForChange.js
+       -}
