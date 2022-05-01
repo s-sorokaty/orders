@@ -11,8 +11,8 @@ const order = new Client({
   host: 'localhost',
   user: 'postgres',
   port: 5432,
-  password: '1',
-  database: 'order',
+  password: 'changeme',
+  database: 'postgres',
 });
 app.set('views', './views');
 app.set('view engine', 'pug');
@@ -167,9 +167,10 @@ app.post('/main', urlencodedParser, (req, res) => {
   selectForDB('select * FROM users').then(
     (result) => {
       for (const array of result) {
+        console.log(array.name)
         if ((array.name == req.body.userName) && (array.password == req.body.userPassword)) {
           selectForDB('select * FROM employee where id = 0').then(
-            (result) => {
+            (result) => { 
               res.render('main', { elem: result, user: req.body.userName });
             },
           );
